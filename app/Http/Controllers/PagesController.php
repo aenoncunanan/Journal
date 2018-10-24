@@ -8,18 +8,14 @@ class PagesController extends Controller
 {
     public function index()
     {
-
         return view('index');
     }
 
     public function home()
     {
-        $data = array(
-            'title' => 'Welcome To Journal',
-            'blogs' => ['Blog1', 'Blog2', 'Blog3']
-        );
+        $posts = Post::orderBy('created_at', 'desc')->paginate(5);
 
-        return view('pages.home')->with($data);
+        return view('pages.home')->with('posts', $posts);
     }
 
     public function about()

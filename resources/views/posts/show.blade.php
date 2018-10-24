@@ -3,16 +3,20 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="/posts" class = "btn btn-default">Back</a>
-    <h1>{{$post->title}}</h1>
-    <div>
+    <hr>
+    <div class = "well">
+        <h1>{{$post->title}}</h1>
+
         {{$post->body}}
+
+        <hr>
+        <small>Written by {{ucfirst(trans($post->user->name))}} on {{$post->created_at}}</small>
     </div>
+
     <hr>
-    <small>Written on {{$post->created_at}}</small>
-    <hr>
+    <a href="/posts" class = "btn btn-default">Back</a>
     <a href="/posts/{{$post->id}}/edit" class = "btn btn-default">Edit</a>
-    {!! Form::open(['action' => ['PostsController@destroy', $post->id], 'method' => 'POST', 'class' => 'pull-right']) !!}
+    {!! Form::open(['action' => ['PostsController@destroy', $post->id], 'method' => 'POST', 'class' => 'btn']) !!}
         {{Form::hidden('_method', 'DELETE')}}
         {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
     {!! Form::close() !!}

@@ -72,7 +72,12 @@
         <div class="jumbotron flex-center position-ref full-height">
             <div class="content">
                 <div class="title m-b-md">
-                    Hi Guest! 
+                    @if(Auth::guest())
+                        Hi Guest! 
+                    @else 
+                        {{-- Hi {{ Auth::user()->name }}! --}}
+                        Hi {{ ucfirst(trans(Auth::user()->name)) }}!
+                    @endif
                 </div>
 
                 <hr class="my-4">
@@ -82,9 +87,20 @@
                 </div>
             
                 <div class="links">
-                    <a class="nav-link" href="/home">Home</a>
-                    <a class="nav-link" href="/posts">Blog</a>
-                    <a class="nav-link" href="">Logout</a>
+                    @if (Auth::guest())
+                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('register') }}">Register</a>
+                    @else
+                        <a class="nav-link" href="/home">Home</a>
+                        <a class="nav-link" href="/about">About</a>
+                        <a class="nav-link" href="/posts">Blog</a>
+                        <a class="nav-link" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">Logout</a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>

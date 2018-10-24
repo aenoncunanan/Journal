@@ -18,3 +18,6 @@ Route::get('/home', 'PagesController@home');
 Route::get('/about', 'PagesController@about');
 
 Route::resource('posts', 'PostsController');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
