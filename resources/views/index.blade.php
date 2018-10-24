@@ -89,6 +89,7 @@
                 <div class="links">
                     @if (Auth::guest())
                         <a href="{{ route('login') }}">Login</a>
+                        <a class="nav-link" href="/about">About</a>
                         <a href="{{ route('register') }}">Register</a>
                     @else
                         <a class="nav-link" href="/home">Home</a>

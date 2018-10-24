@@ -8,6 +8,17 @@ use App\User;
 
 class PostsController extends Controller
 {
+        /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        // $this->middleware('auth', ['except' => ['show', 'index']]); //Will still show these pages even if not logged in
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -88,6 +99,10 @@ class PostsController extends Controller
     {
         $post = Post::find($id);
 
+        //Check if the right user
+        if (auth()->user()->id !== $post->user_id){
+            return redirect('/posts')->with('error', 'Unauthorized Page');
+        }
         return view('posts.edit')->with('post', $post);
     }
 
@@ -124,6 +139,11 @@ class PostsController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
+
+        //Check if the right user
+        if (auth()->user()->id !== $post->user_id){
+            return redirect('/posts')->with('error', 'Unauthorized Page');
+        }
         $post->delete();
 
         return redirect('/posts')->with('success', 'Post Deleted');
